@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    expose:
+      - 5000
+    ports:
+      - 5000:5000
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+      - FLASK_DEBUG=1
+      - PYTHONPATH=/backend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - PROXY=http://backend:5000/
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
